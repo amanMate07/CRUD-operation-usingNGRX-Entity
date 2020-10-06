@@ -1,0 +1,46 @@
+
+
+<form (ngSubmit)="update(f)" #f='ngForm'>
+    <label >Email</label><input type="text" ngModel name='email' required email>
+    <label >Password</label><input type="text" ngModel name="password" required>
+    <label >Name</label><input type="text" ngModel name='name' required>
+    <label >UserId</label><input type="text" ngModel name='userId' required>
+    <button type="submit" [disabled]="!f.valid">post</button>
+</form>
+
+<hr>
+<button (click)="updateMultiple()">Update Multiple</button>
+<hr>
+<button (click)="deleteMultiple()">Delete Multiple</button>
+  <hr>
+  <button (click)="selectAll()">Select All</button>
+  <hr>
+<!-- <div *ngFor="let data of users;let i=index">
+    <div><p>{{data.id}}</p>
+        <input type="text" id="lastname" name="lastname" [(ngModel)]="itemList[in].lastname">
+        <p>{{data.name}}</p>
+        <p>{{data.password}}</p>
+        <p>{{data.email}}</p>
+        <input type="checkbox" [checked]="data.select" (change)="onChange(data.id,data, $event.target.checked)">
+        <button (click)="get(data.id)">get</button>
+        <button (click)="delete(data.id)">Delete</button>
+    </div>
+</div> -->
+
+<form  [formGroup]='userForm' (ngSubmit)="updateMultiple()">
+    <div formArrayName="usersFormArray">
+        <div  *ngFor="let c of userForm.get('usersFormArray')['controls'];let j=index" >
+            <div [formGroupName]="j">
+                <input formControlName="email" [checked]='check'(keyup)="change(j,$event.target.checked )">
+                <input formControlName="id" [checked]='check' (keyup)="change(j,$event.target.checked )">
+                <input formControlName="password" [checked]='check' (keyup)="change(j,$event.target.checked)">
+                <input formControlName="name" [checked]='check' (keyup)="change(j,$event.target.checked)">
+                <input type="checkbox" formControlName='check' (change)="onChange(j, $event.target.checked)">
+            </div>
+        </div>
+    </div>
+  <button type="submit" [hidden]='true'>Click me</button>
+</form>
+
+<pre>Form values: {{userForm.value | json}}</pre>
+<pre> values: {{userArray | json}}</pre>
